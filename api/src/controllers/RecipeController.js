@@ -1,6 +1,15 @@
-const { Recipe, Op } = require('../db.js')
+const { Recipe } = require('../db.js')
+const { Op } = require('sequelize')
 
 module.exports = {
+    getRecipesList: async (req, res) => {
+        try {
+            const recipes = Recipe.findAll()
+            res.json(recipes)
+        } catch(e) {
+            res.status(400).send({msg: e.message})
+        }
+    },
     getRecipesFromName: async (req, res) => {
         const { name } = req.query
         try {
@@ -21,7 +30,7 @@ module.exports = {
     },
     postRecipe: async (req, res) => {
         const { id, name, summary, heathScore, procedure } = req.body
-        if(!id || !name || !summary) res.status(400).send({msg: 'Faltan campos obligatorios'})
+        if(!id || !name || !summary) return res.status(400).send({msg: 'Faltan campos obligatorios'})
         try {
             const newRecipe =  await Recipe.create({id, name, summary, heathScore, procedure})
             newRecipe.save()
