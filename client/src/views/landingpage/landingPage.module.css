@@ -1,0 +1,42 @@
+.header {
+    height: 100vh;
+    padding-left: 2rem;
+    padding-right: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.img {
+    width: 600px;
+    mix-blend-mode: darken;
+}
+
+.container_img::before {
+    content: url('../../res/blob.svg');
+    position: absolute;
+    width: 49%;
+    top: 0;
+    left: 15vh;
+}
+
+.container {
+    display: flex;
+    align-items: center;
+}
+
+.title {
+    font-size: 64px;
+}
+
+.text {
+    font-size: 24px;
+}
+
+.container_title {
+    max-width: 500px;
+}
+
+.container_title > * {
+    margin-top: 16px;
+}

@@ -1,0 +1,41 @@
+.container {
+    height: 100vh;
+    width: 70%;
+    background-color: #F0F0F3;
+    padding: 0 4rem;
+    padding-bottom: 4rem;
+    overflow-y: scroll;
+    display: flex;
+    flex-direction: column;
+}
+
+.container::-webkit-scrollbar {
+    width: 6px;
+}
+
+.container::-webkit-scrollbar-thumb {
+    background-color: #303030;
+    border-radius: 6px;
+}
+
+
+.container_text {
+    padding-top: 5rem;
+}
+
+.container_text * {
+    margin: 2rem 0;
+    margin-right: 16px;
+}
+
+
+.container_text h1 {
+    font-size: 64px;
+    max-width: 70vh;
+}
+
+.summary {
+    margin-top: 2rem;
+    font-size: 24px;
+    max-width: 90vh;
+}
