@@ -1,0 +1,59 @@
+.card_green {
+    border: none;
+    padding: 1rem 3rem 1rem 3rem;
+    border-radius: 28px;
+    background-color: #C4D47F;
+    box-shadow: 5px 5px 10px #a7b46c,
+        -5px -5px 10px #e1f492;
+        font-weight: 600;
+}
+
+.card {
+    font-weight: 600;
+    color: #626262;
+    border: none;
+    padding: 1rem 3rem 1rem 3rem;
+    border-radius: 28px;
+    background: #F0F0F3;
+    box-shadow:  16px 16px 32px #cccccf,
+             -16px -16px 32px #ffffff;
+    margin-top: 28px;
+}
+
+
+.btn,
+.btn_green {
+    position: relative;
+    cursor: pointer;
+}
+
+.btn:active {
+    background: linear-gradient(145deg, #d8d8db, #ffffff);
+}
+
+
+.btn_green:active {
+    background: linear-gradient(145deg, #b0bf72, #d2e388);
+}
+
+.btn::before {
+    content: url('./res/add.svg');
+    position: absolute;
+    left: 1rem;
+    top: auto;
+    bottom: auto;
+}
+
+.input:focus{
+    outline: none;
+    box-shadow: inset 5px 5px 12px #cccccf,
+            inset -5px -5px 12px #ffffff;
+}
+
+.input[type='search'] {
+    background-image: url('./res/search.svg');
+    background-position: 18px 12px;
+    background-repeat: no-repeat;
+    background-size: 24px;
+}
+  
