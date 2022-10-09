@@ -1,0 +1,11 @@
+.container {
+    height: 100vh;
+    background-color: #F0F0F3;
+    padding-left: 2rem;
+    padding-right: 2rem;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    width: 30%;
+}
+

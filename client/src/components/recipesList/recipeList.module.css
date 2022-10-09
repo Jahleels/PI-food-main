@@ -1,0 +1,31 @@
+.container {
+    width: 100%;
+    position: relative;
+}
+
+.buttons {
+    position: absolute;
+    bottom: 2rem;
+    right: 30%;
+    display: flex;
+}
+
+.buttons > * {
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.recipesContainer {
+    padding: 2rem;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+
+}
+
+
+
+
+
+
+

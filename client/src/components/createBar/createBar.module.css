@@ -1,0 +1,86 @@
+.container {
+    height: 100vh;
+    width: 70%;
+    background-color: #F0F0F3;
+    padding: 0 4rem;
+    padding-bottom: 4rem;
+    overflow-y: scroll;
+    display: flex;
+    flex-direction: column;
+}
+
+.container > * {
+    margin-top: 1rem;
+}
+
+.container::-webkit-scrollbar {
+    width: 6px;
+}
+
+.container::-webkit-scrollbar-thumb {
+    background-color: #303030;
+    border-radius: 6px;
+}
+.summary::-webkit-scrollbar {
+    width: 6px;
+}
+
+.summary::-webkit-scrollbar-thumb {
+    background-color: #303030;
+    border-radius: 6px;
+}
+.inputSteps::-webkit-scrollbar {
+    width: 6px;
+}
+
+.inputSteps::-webkit-scrollbar-thumb {
+    background-color: #303030;
+    border-radius: 6px;
+}
+
+.header {
+    margin-top: 5rem;
+}
+
+.title {
+    padding: 1rem 3rem;
+    border-radius: 0;
+    font-size: 64px;
+    font-family: 'Lora';
+    color: #303030;
+    border-color: #30303056;
+    background-color: #F0F0F3;
+}
+
+.summary {
+    color: #303030;
+    border-color: #30303056;
+    background-color: #F0F0F3;
+    font-size: 24px;
+    padding: 1rem 1.5rem;
+    margin-top: 1rem;
+    margin-bottom: 2rem;
+    width: 70vh;
+    height: 30vh;
+}
+
+
+.inputSteps {
+    width: 100%;
+}
+
+.diet {
+    padding: 1rem 0;
+    display: flex;
+    justify-content: center;
+}
+
+.label {
+    font-weight: 600;
+    margin: 0 8px;
+} 
+
+.checkbox {
+    margin-right: 1rem;
+}
+
