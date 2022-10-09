@@ -5,22 +5,24 @@ module.exports = (sequelize) => {
   // defino el modelo
   sequelize.define('recipe', {
     id:{
-      type:DataTypes.UUID,
-      primaryKey: true,
-      allowNull: false
+      type:DataTypes.INTEGER,
+      primaryKey: true
     },
     name: {
       type: DataTypes.STRING,
       allowNull: false,
     },
     summary:{
-      type:DataTypes.STRING,
+      type:DataTypes.TEXT,
       allowNull: false
      },
      healthScore:{
-      type:DataTypes.STRING
+      type:DataTypes.INTEGER
      },
      procedure:{
+      type:DataTypes.ARRAY(DataTypes.JSON)
+     },
+     img:{
       type:DataTypes.STRING
      }
   });

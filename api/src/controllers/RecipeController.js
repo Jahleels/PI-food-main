@@ -3,8 +3,11 @@ const { Op } = require('sequelize')
 
 module.exports = {
     getRecipesList: async (req, res) => {
+
         try {
-            const recipes = Recipe.findAll()
+            const recipes = await Recipe.findAll({
+                attributes:['id', 'name', 'summary', 'img']
+            })
             res.json(recipes)
         } catch(e) {
             res.status(400).send({msg: e.message})
@@ -12,8 +15,14 @@ module.exports = {
     },
     getRecipesFromName: async (req, res) => {
         const { name } = req.query
+        const capitalizedName = name.replace(/\w\S*/g,(w)=>(w.replace(/^\w/,(c)=>c.toUpperCase())))
+        
         try {
-            const recipes = await Recipe.findAll({where:{name:{[Op.like]:name}}})
+            const recipes = await Recipe.findAll({
+                where:{
+                    name:{
+                        [Op.like]:`%${capitalizedName}%`
+                    }}})
             res.json(recipes)
         } catch(e) {
             res.status(404).send({msg: e.message})
