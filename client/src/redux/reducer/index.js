@@ -3,8 +3,11 @@ import {
     GET_RECIPE_DETAIL, 
     GET_DIETS, 
     CREATE_RECIPE,
+    CREATE_DETAIL,
     GET_RECIPES_FROM_NAME,
-    REQUEST_FAILURE } from '../actions'
+    REQUEST_FAILURE,
+    CHANGE_PAGE,
+    SLICE_OF_PAGINATION } from '../actions'
 
 
 const initialState = {
@@ -13,17 +16,26 @@ const initialState = {
     errorMessage: '',
     recipes:[],
     diets:[],
-    recipeDetail: {}
+    recipeDetail: {},
+    createDetail: {
+
+    },
+    currentPosts:[],
+    currentPage:1,
+    recipesPerPage:6,
+    sliceOfPagination: [0, 4]
 }
 
 const mainReducer = (state = initialState, action) => {
     switch (action.type) {
         case GET_RECIPES:
-            
+            const indexOfLastRecipe = state.currentPage * state.recipesPerPage;
+            const indexOfFirstRecipe = indexOfLastRecipe - state.recipesPerPage
             return {
                 ...state,
                 recipes: action.payload,
-                isLoading: false
+                isLoading: false,
+                currentPosts: action.payload.slice(indexOfFirstRecipe, indexOfLastRecipe)
             }
 
         case GET_RECIPES_FROM_NAME:
@@ -31,7 +43,8 @@ const mainReducer = (state = initialState, action) => {
             return {
                 ...state,
                 recipes: action.payload,
-                isLoading: false
+                isLoading: false,
+                currentPosts: action.payload.slice(0, 6)
             }
     
         case GET_DIETS:
@@ -57,6 +70,13 @@ const mainReducer = (state = initialState, action) => {
                 recipes: [action.payload, ...state.recipes]
             }
 
+        case CREATE_DETAIL:
+
+            return {
+                ...state,
+                createDetail: {...state.createDetail, ...action.payload}
+            }
+
         case REQUEST_FAILURE:
 
             return {
@@ -66,6 +86,21 @@ const mainReducer = (state = initialState, action) => {
                 errorMessage: action.payload
             }
 
+        case CHANGE_PAGE:
+
+            return {
+                ...state,
+                currentPosts: state.recipes.slice(action.payload[0], action.payload[1]),
+                currentPage: action.payload[2]
+            }
+
+        case SLICE_OF_PAGINATION:
+
+            return {
+                ...state,
+                sliceOfPagination: action.payload
+            }
+        
         default:
             return state
     }
