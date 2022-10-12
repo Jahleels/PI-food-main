@@ -14,6 +14,9 @@ export const GET_DIETS = "GET_DIETS"
 export const REQUEST_FAILURE = "REQUEST_FAILURE"
 export const CHANGE_PAGE = "CHANGE_PAGE"
 export const SLICE_OF_PAGINATION = "SLICE_OF_PAGINATION"
+export const ORDER_BY = "ORDER_BY" 
+export const FILTER_BY = "FILTER_BY"
+export const RESET = "RESET"
 
 //      ACTIONS
 export const getRecipes = () => {
@@ -55,7 +58,7 @@ export const getRecipesFromName = (name) => {
         return axios.get(`${PORT}/recipes/?name=${name}`)
         .then(({ data }) => dispatch({
             type:GET_RECIPES_FROM_NAME,
-            payload: data
+            payload: [data, name]
         }))
         .catch( err => dispatch({
             type: REQUEST_FAILURE,
@@ -91,3 +94,49 @@ export const changeIndexOfPagination = (lastButtonPagination, firstButtonPaginat
         payload: [firstButtonPagination, lastButtonPagination]
     }
 }
+
+export const orderBy = (order) => {
+    return {
+        type: ORDER_BY,
+        payload: order
+    }
+}
+
+export const filterBy = (filter) => {
+    return {
+        type: FILTER_BY,
+        payload: filter
+    }
+}
+
+export const reset = () => {
+    return{ 
+        type: RESET
+    }
+}
+
+// Functions Helpers
+
+export function compareValues(key, order = 'Ascendente') {
+    return function innerSort(a, b) {
+      if (!a.hasOwnProperty(key) || !b.hasOwnProperty(key)) {
+        // property doesn't exist on either object
+        return 0;
+      }
+  
+      const varA = (typeof a[key] === 'string')
+        ? a[key].toUpperCase() : a[key];
+      const varB = (typeof b[key] === 'string')
+        ? b[key].toUpperCase() : b[key];
+  
+      let comparison = 0;
+      if (varA > varB) {
+        comparison = 1;
+      } else if (varA < varB) {
+        comparison = -1;
+      }
+      return (
+        (order === 'Descendente') ? (comparison * -1) : comparison
+      );
+    };
+  }

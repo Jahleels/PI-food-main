@@ -7,7 +7,11 @@ import {
     GET_RECIPES_FROM_NAME,
     REQUEST_FAILURE,
     CHANGE_PAGE,
-    SLICE_OF_PAGINATION } from '../actions'
+    SLICE_OF_PAGINATION,
+    ORDER_BY,
+    FILTER_BY,
+    RESET,
+    compareValues } from '../actions'
 
 
 const initialState = {
@@ -15,6 +19,8 @@ const initialState = {
     isError: false,
     errorMessage: '',
     recipes:[],
+    recipesBackup: [],
+    recipesFromName:[],
     diets:[],
     recipeDetail: {},
     createDetail: {
@@ -23,17 +29,22 @@ const initialState = {
     currentPosts:[],
     currentPage:1,
     recipesPerPage:6,
-    sliceOfPagination: [0, 4]
+    sliceOfPagination: [0, 4],
+
+    valueOrder:'Order',
+    valueFilter:'Filter by diet',
+    valueSearch:''
 }
 
 const mainReducer = (state = initialState, action) => {
+    let indexOfLastRecipe = state.currentPage * state.recipesPerPage;
+    let indexOfFirstRecipe = indexOfLastRecipe - state.recipesPerPage
     switch (action.type) {
         case GET_RECIPES:
-            const indexOfLastRecipe = state.currentPage * state.recipesPerPage;
-            const indexOfFirstRecipe = indexOfLastRecipe - state.recipesPerPage
             return {
                 ...state,
                 recipes: action.payload,
+                recipesBackup: action.payload,
                 isLoading: false,
                 currentPosts: action.payload.slice(indexOfFirstRecipe, indexOfLastRecipe)
             }
@@ -42,9 +53,11 @@ const mainReducer = (state = initialState, action) => {
 
             return {
                 ...state,
-                recipes: action.payload,
+                recipes: action.payload[0],
+                recipesFromName: action.payload[0],
                 isLoading: false,
-                currentPosts: action.payload.slice(0, 6)
+                currentPosts: action.payload[0]?.slice(0, 6),
+                valueSearch: action.payload[1]
             }
     
         case GET_DIETS:
@@ -64,10 +77,11 @@ const mainReducer = (state = initialState, action) => {
             }
 
         case CREATE_RECIPE:
-
+            
             return {
                 ...state,
-                recipes: [action.payload, ...state.recipes]
+                recipes: [action.payload, ...state.recipes],
+                recipesBackup: [action.payload, ...state.recipes]
             }
 
         case CREATE_DETAIL:
@@ -99,6 +113,46 @@ const mainReducer = (state = initialState, action) => {
             return {
                 ...state,
                 sliceOfPagination: action.payload
+            }
+
+        case ORDER_BY:
+
+            let recipes = action.payload !== 'Order'
+            ? state.recipes.sort(compareValues('name', action.payload))  
+            : state.recipesBackup;
+
+            return {
+                ...state,
+                recipes: recipes,
+                currentPosts: recipes.slice(indexOfFirstRecipe, indexOfLastRecipe),
+                valueOrder: action.payload
+            }
+        
+        case FILTER_BY:
+
+            let filteredRecipes = action.payload !== 'Filter by diet' 
+            ? !state.recipesFromName.length 
+                ? state.recipesBackup.filter( recipe => recipe.mixes.some( diet => diet.diet.name === action.payload)) 
+                : state.recipesFromName?.filter( recipe => recipe.mixes.some( diet => diet.diet.name === action.payload)) 
+            : state.recipesBackup;
+
+            return {
+                ...state,
+                recipes: filteredRecipes,
+                currentPosts: filteredRecipes.slice(indexOfFirstRecipe, indexOfLastRecipe),
+                valueFilter: action.payload
+            }
+
+        case RESET:
+
+            return {
+                ...state,
+                recipes: state.recipesBackup,
+                currentPosts: state.recipesBackup.slice(0, 6),
+                valueFilter: 'Filter by diet',
+                valueOrder: 'Order',
+                valueSearch: '',
+                currentPage: 1
             }
         
         default:
