@@ -17,9 +17,13 @@ border-radius: 50px;
 background: #F0F0F3;
 box-shadow:  10px 10px 20px #ceced1,
             -10px -10px 20px #ffffff;
+animation: load 1s ease-in;
+@keyframes load {
+    from { opacity: 0;} to {opacity: 1;}
+}
 `
 
-const Exit = styled.button`
+ export const Exit = styled.button`
 cursor: pointer;
 position: fixed;
 margin-top: 16px;
@@ -52,10 +56,16 @@ background-image: url(${props => props.img});
 background-repeat: no-repeat;
 background-size: cover;
 background-position: center;
+animation: pageLoad 1.1s ease-in;
+
+
+@keyframes pageLoad {
+    from{opacity: 0;} to{opacity: 1;}
+}
 `
 
 function RecipeDetail() {
-    const { name, summary, procedure, healthScore, img } = useSelector(state => state.recipeDetail)
+    const { name, summary, procedure, healthScore, img, mixes } = useSelector(state => state.recipeDetail)
     const { id } = useParams()
     const dispatch = useDispatch()
     const history = useHistory()
@@ -66,22 +76,24 @@ function RecipeDetail() {
     }
     useEffect(() => {
         dispatch(getRecipeDetail(id))
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [id])
-
+    }, [id, dispatch])
 
 
 
     return (
-        <main style={{ display: 'flex' }}>
+        <main className={s.main}>
+            <ImageAside img={img} />
             <section className={s.container}>
                 <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
                     <Exit onClick={close}><Logo /></Exit>
                 </div>
                 <div className={s.container_text}>
                     <h1>{name}</h1>
-                    <DietPill>Vegetariano</DietPill>
-                    <DietPill>Health Score: {healthScore}</DietPill>
+                    <div className={s.pills}>
+                        <DietPill>Health Score: {healthScore}</DietPill>
+
+                        {mixes?.map( mix => (<DietPill key={mix.diet.id}>{mix.diet.name}</DietPill>))}
+                    </div>
                 </div>
                 <div className={s.summary}>
                     <p dangerouslySetInnerHTML={{__html: summary}}></p>
@@ -97,7 +109,6 @@ function RecipeDetail() {
 
                 </div>
             </section>
-            <ImageAside img={img} />
         </main>
     );
 }

@@ -1,3 +1,29 @@
+@keyframes pageLoad-container {
+    from {
+        transform: translateX(-15vh);
+    }
+
+    to {
+        transform: translateX(0);
+    }
+}
+
+@keyframes pageLoad {
+    from {
+        opacity: 0;
+        transform: translateX(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.main {
+    display: flex;
+}
+
 .container {
     height: 100vh;
     width: 70%;
@@ -7,6 +33,7 @@
     overflow-y: scroll;
     display: flex;
     flex-direction: column;
+    animation: pageLoad-container 300ms ease-out;
 }
 
 .container::-webkit-scrollbar {
@@ -23,19 +50,44 @@
     padding-top: 5rem;
 }
 
-.container_text * {
-    margin: 2rem 0;
-    margin-right: 16px;
+.pills {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.pills * {
+    margin-right: 1rem;
+    margin-top: 1rem;
 }
 
 
 .container_text h1 {
+    margin: 2rem 0;
     font-size: 64px;
     max-width: 70vh;
+    animation: pageLoad 1s;
 }
 
 .summary {
     margin-top: 2rem;
     font-size: 24px;
     max-width: 90vh;
+    animation: pageLoad 1s;
+}
+
+@media only screen and (max-width: 769px) {
+    .main {
+        display: block;
+    }
+
+    .container {
+        width: 100%;
+    }
+
+    .main > :first-child {
+        position: static;
+        height: 10vh;
+        width: 100%;
+    }
+
 }

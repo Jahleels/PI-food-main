@@ -1,0 +1,16 @@
+.main {
+    display: flex;
+}
+
+@media only screen and (max-width: 769px) {
+    .main {
+        display: block;
+    }
+
+    .main > :first-child {
+        position: static;
+        height: 10vh;
+        width: 100%;
+    }
+
+}

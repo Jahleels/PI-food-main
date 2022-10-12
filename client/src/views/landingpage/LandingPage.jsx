@@ -3,7 +3,7 @@ import neu from '../../neu-card.module.css'
 import apple from '../../res/comida.jpg'
 import { useHistory } from 'react-router-dom'
 
-function LandingPage(props) {
+function LandingPage() {
     const history = useHistory()
 
     const handleBtn = (e) => {
