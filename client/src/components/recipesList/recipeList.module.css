@@ -23,7 +23,19 @@
 
 }
 
+@media only screen and (max-width: 769px) {
+    .container {
+        display: flex;
+        flex-direction: column-reverse;
+    }
 
+    .buttons {
+        position: static;
+        display: flex;
+        justify-content: center;
+        margin-top: 2rem;
+    }
+}
 
 
 

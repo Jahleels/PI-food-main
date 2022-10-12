@@ -56,7 +56,6 @@ function Pagination() {
 
 
 
-    console.log(firstButtonPagination, lastButtonPagination)
     let numOfButtons = Math.ceil(recipesLength / 6)
     let listOfButtons = []
     const moveNumbersPagination = (numberOfPage) => {
