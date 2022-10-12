@@ -18,7 +18,7 @@
 //                       `=---='
 //     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 const server = require('./src/app.js');
-const { conn, Recipe } = require('./src/db.js');
+const { conn, Recipe, Diet, Mix } = require('./src/db.js');
 const fs = require('fs')
 
 // Syncing all the models at once.
@@ -28,17 +28,30 @@ conn.sync({ force: true }).then(() => {
   });
   fs.readFile('foodComplexSearch.json', (error, data) => {
     if(error) throw error;
+    let dietsSet = new Set()
     let json = JSON.parse(data)
     let arr = json.results.map( item => {
+      
+      item.diets?.forEach( diet => dietsSet.add(diet))
+
       return Recipe.create({
         id:item.id,
         name:item.title,
         summary:item.summary,
         healthScore:item.healthScore,
         procedure: item.analyzedInstructions[0]?.steps.map(item => {return {step:item.step}}),
-        img: item.image
-      })
+        img: item.image,
+        mixes: item.diets?.map( diet => {
+          let diets = [...dietsSet]
+          return ({dietId:diets.indexOf(diet)})
+        })
+      }, {include: Mix})
     })
+
+
+    let counter = 0
+    let diets = [...dietsSet].map(diet => Diet.create({id: counter++, name:diet}))
     Promise.all(arr)
+    Promise.all(diets)
   })
 });

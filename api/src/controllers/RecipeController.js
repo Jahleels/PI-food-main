@@ -1,4 +1,4 @@
-const { Recipe } = require('../db.js')
+const { Recipe, Mix, Diet } = require('../db.js')
 const { Op } = require('sequelize')
 
 module.exports = {
@@ -6,7 +6,11 @@ module.exports = {
 
         try {
             const recipes = await Recipe.findAll({
-                attributes:['id', 'name', 'summary', 'img']
+                attributes:['id', 'name', 'summary', 'img'],
+                include:[ {
+                    model: Mix,
+                    include: [Diet]
+                }]
             })
             res.json(recipes)
         } catch(e) {
@@ -22,7 +26,12 @@ module.exports = {
                 where:{
                     name:{
                         [Op.like]:`%${capitalizedName}%`
-                    }}})
+                    }},
+                include:[{
+                    model:Mix,
+                    include: [Diet]
+                }]
+                })
             res.json(recipes)
         } catch(e) {
             res.status(404).send({msg: e.message})
@@ -31,17 +40,23 @@ module.exports = {
     getRecipeFromId: async (req, res) => {
         const { idRecipe } = req.params
         try {
-            const recipeFinded = await Recipe.findOne({where: { id: idRecipe}})
+            const recipeFinded = await Recipe.findOne({
+                where: { id: idRecipe},
+                include:[{
+                    model:Mix,
+                    include: [Diet]
+                }]
+            })
             res.json(recipeFinded)
         } catch(e) {
             res.status(404).send({msg:e.message})
         }
     },
     postRecipe: async (req, res) => {
-        const { id, name, summary, heathScore, procedure } = req.body
+        const { id, name, summary, healthScore, diet } = req.body
         if(!id || !name || !summary) return res.status(400).send({msg: 'Faltan campos obligatorios'})
         try {
-            const newRecipe =  await Recipe.create({id, name, summary, heathScore, procedure})
+            const newRecipe =  await Recipe.create({id, name, summary, healthScore, mixes: diet.map( item => ({dietId:item}))}, {include: "mixes"})
             newRecipe.save()
             res.status(200).send({msg: 'succesful'})
         } catch(e){
