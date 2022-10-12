@@ -1,3 +1,13 @@
+@keyframes cardLoad {
+    from {
+        box-shadow: 0 0 0 transparent, 0 0 0 transparent;
+    }
+    to {
+        box-shadow:  16px 16px 32px #cccccf,
+        -16px -16px 32px #ffffff;
+    }
+}
+
 .card_green {
     border: none;
     padding: 1rem 3rem 1rem 3rem;
@@ -18,6 +28,8 @@
     box-shadow:  16px 16px 32px #cccccf,
              -16px -16px 32px #ffffff;
     margin-top: 28px;
+    animation: cardLoad 1s ease-in;
+
 }
 
 
@@ -40,8 +52,7 @@
     content: url('./res/add.svg');
     position: absolute;
     left: 1rem;
-    top: auto;
-    bottom: auto;
+    top: 12px;
 }
 
 .input:focus{

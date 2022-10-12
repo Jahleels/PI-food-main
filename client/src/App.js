@@ -4,8 +4,16 @@ import CreateRecipe from './views/CreateRecipe/CreateRecipe';
 import LandingPage from './views/landingpage/LandingPage';
 import Main from './views/main/Main';
 import RecipeDetail from './views/recipeDetail/RecipeDetail';
+import { useDispatch } from 'react-redux';
+import { useEffect } from 'react';
+import { getRecipes, getDiets } from './redux/actions';
 
 function App() {
+  const dispatch = useDispatch()
+  useEffect(() => {
+      dispatch(getRecipes())
+      dispatch(getDiets())
+  }, [dispatch]) 
   return (
     <div className="App">
       <Switch>
